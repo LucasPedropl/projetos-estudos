@@ -14,5 +14,14 @@
         }
     ],
     "cSpell.language": "pt-BR,en",
-    "cSpell.words": ["usuario", "Usuario", "usuarios"]
+    "cSpell.words": [
+        "Atualizacao",
+        "caracteristicas",
+        "Criacao",
+        "descricao",
+        "dtos",
+        "usuario",
+        "Usuario",
+        "usuarios"
+    ]
 }
