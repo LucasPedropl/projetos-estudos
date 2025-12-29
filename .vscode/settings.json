@@ -1,7 +1,18 @@
 {
-  "eslint.workingDirectories": [
-    {
-      "mode": "auto"
-    }
-  ]
+    "files.exclude": {
+        "**/node_modules": true,
+        "**/dist": true
+    },
+    "eslint.packageManager": "pnpm",
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/dist": true
+    },
+    "eslint.workingDirectories": [
+        {
+            "mode": "auto"
+        }
+    ],
+    "cSpell.language": "pt-BR,en",
+    "cSpell.words": ["usuario", "Usuario", "usuarios"]
 }

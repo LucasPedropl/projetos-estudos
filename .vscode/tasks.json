@@ -1,0 +1,47 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start API (dev)",
+            "type": "shell",
+            "command": "pnpm",
+            "args": ["run", "start:dev"],
+            "options": {
+                "cwd": "${workspaceFolder}/apps/loja/api"
+            },
+            "isBackground": true,
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        {
+            "label": "Start API (debug)",
+            "type": "shell",
+            "command": "pnpm",
+            "args": ["run", "start:debug"],
+            "options": {
+                "cwd": "${workspaceFolder}/apps/loja/api"
+            },
+            "isBackground": true,
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        {
+            "label": "Serve Web",
+            "type": "shell",
+            "command": "npx",
+            "args": ["http-server", "-c-1", "-p", "3000", "."],
+            "options": {
+                "cwd": "${workspaceFolder}/apps/loja/web"
+            },
+            "isBackground": true,
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        }
+    ]
+}

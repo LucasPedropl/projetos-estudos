@@ -1,0 +1,50 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Nest: Start (dev)",
+            "type": "pwa-node",
+            "request": "launch",
+            "runtimeExecutable": "pnpm",
+            "args": ["run", "start:dev"],
+            "cwd": "${workspaceFolder}/apps/loja/api",
+            "console": "integratedTerminal",
+            "autoAttachChildProcesses": true
+        },
+        {
+            "name": "Nest: Debug (start:debug)",
+            "type": "pwa-node",
+            "request": "launch",
+            "runtimeExecutable": "pnpm",
+            "args": ["run", "start:debug"],
+            "cwd": "${workspaceFolder}/apps/loja/api",
+            "console": "integratedTerminal",
+            "autoAttachChildProcesses": true
+        },
+        {
+            "name": "Attach to Nest (9229)",
+            "type": "pwa-node",
+            "request": "attach",
+            "port": 9229,
+            "restart": false,
+            "skipFiles": ["<node_internals>/**"]
+        },
+        {
+            "name": "Serve Web (http://localhost:3000)",
+            "type": "pwa-chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/apps/loja/web",
+            "preLaunchTask": "Serve Web"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Start: API + Web",
+            "configurations": [
+                "Nest: Start (dev)",
+                "Serve Web (http://localhost:3000)"
+            ]
+        }
+    ]
+}
