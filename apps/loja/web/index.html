@@ -1,164 +1,228 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrativo — Loja</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Painel Administrativo — Loja</title>
 
-    <!-- Fonte Inter para tipografia moderna -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <!-- Fonte Inter para tipografia moderna -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
 
-    <!-- Importação do CSS Externo -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <!-- Header Principal -->
-    <header class="main-header">
-        <div class="container header-content">
-            <div class="logo">
-                <span>⚡</span> Admin<strong>Loja</strong>
+        <!-- Importação do CSS Externo -->
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <!-- Header Principal -->
+        <header class="main-header">
+            <div class="container header-content">
+                <div class="logo">
+                    <span>⚡</span> Admin<strong>Loja</strong>
+                </div>
+                <div class="api-control">
+                    <label for="baseUrl">API:</label>
+                    <input
+                        id="baseUrl"
+                        type="text"
+                        value="http://localhost:3000"
+                    />
+                </div>
             </div>
-            <div class="api-control">
-                <label for="baseUrl">API:</label>
-                <input id="baseUrl" type="text" value="http://localhost:3000">
-            </div>
-        </div>
-    </header>
+        </header>
 
-    <div class="container main-layout">
+        <div class="container main-layout">
+            <!-- COLUNA ESQUERDA: LISTAGENS -->
+            <main class="content-col">
+                <!-- Navegação por Abas -->
+                <nav class="nav-tabs">
+                    <button
+                        id="tabProdutos"
+                        class="tab-btn active"
+                        onclick="app.switchTab('produtos')"
+                    >
+                        📦 Produtos
+                    </button>
+                    <button
+                        id="tabUsuarios"
+                        class="tab-btn"
+                        onclick="app.switchTab('usuarios')"
+                    >
+                        👥 Usuários
+                    </button>
+                </nav>
 
-        <!-- COLUNA ESQUERDA: LISTAGENS -->
-        <main class="content-col">
+                <!-- Seção Produtos -->
+                <section id="viewProdutos" class="fade-in">
+                    <div class="section-header">
+                        <h2>Catálogo de Produtos</h2>
+                        <span class="badge" id="countProdutos">0 itens</span>
+                    </div>
+                    <div id="produtosList" class="grid-list">
+                        <!-- JS injeta aqui -->
+                        <div class="loading-state">Carregando produtos...</div>
+                    </div>
+                </section>
 
-            <!-- Navegação por Abas -->
-            <nav class="nav-tabs">
-                <button id="tabProdutos" class="tab-btn active" onclick="app.switchTab('produtos')">
-                    📦 Produtos
-                </button>
-                <button id="tabUsuarios" class="tab-btn" onclick="app.switchTab('usuarios')">
-                    👥 Usuários
-                </button>
-            </nav>
+                <!-- Seção Usuários -->
+                <section id="viewUsuarios" class="hidden fade-in">
+                    <div class="section-header">
+                        <h2>Base de Usuários</h2>
+                        <span class="badge" id="countUsuarios">0 usuários</span>
+                    </div>
+                    <div id="usuariosList" class="rows-list">
+                        <!-- JS injeta aqui -->
+                        <div class="loading-state">Carregando usuários...</div>
+                    </div>
+                </section>
+            </main>
 
-            <!-- Seção Produtos -->
-            <section id="viewProdutos" class="fade-in">
-                <div class="section-header">
-                    <h2>Catálogo de Produtos</h2>
-                    <span class="badge" id="countProdutos">0 itens</span>
-                </div>
-                <div id="produtosList" class="grid-list">
-                    <!-- JS injeta aqui -->
-                    <div class="loading-state">Carregando produtos...</div>
-                </div>
-            </section>
-
-            <!-- Seção Usuários -->
-            <section id="viewUsuarios" class="hidden fade-in">
-                <div class="section-header">
-                    <h2>Base de Usuários</h2>
-                    <span class="badge" id="countUsuarios">0 usuários</span>
-                </div>
-                <div id="usuariosList" class="rows-list">
-                    <!-- JS injeta aqui -->
-                    <div class="loading-state">Carregando usuários...</div>
-                </div>
-            </section>
-
-        </main>
-
-        <!-- COLUNA DIREITA: FORMULÁRIOS (STICKY) -->
-        <aside class="sidebar-col">
-            <div class="sticky-wrapper">
-
-                <!-- Form Produto -->
-                <div id="formCardProduto" class="card-form">
-                    <h3>Novo Produto</h3>
-                    <form id="createProdutoForm">
-                        <div class="form-group">
-                            <label>Nome do Produto</label>
-                            <input name="nome" placeholder="Ex: Cadeira Gamer RGB" required autocomplete="off">
-                        </div>
-
-                        <div class="form-row">
+            <!-- COLUNA DIREITA: FORMULÁRIOS (STICKY) -->
+            <aside class="sidebar-col">
+                <div class="sticky-wrapper">
+                    <!-- Form Produto -->
+                    <div id="formCardProduto" class="card-form">
+                        <h3>Novo Produto</h3>
+                        <form id="createProdutoForm">
                             <div class="form-group">
-                                <label>Valor (R$)</label>
-                                <input name="valor" type="number" step="0.01" placeholder="0.00" required>
+                                <label>Nome do Produto</label>
+                                <input
+                                    name="nome"
+                                    placeholder="Ex: Cadeira Gamer RGB"
+                                    required
+                                    autocomplete="off"
+                                />
                             </div>
-                            <div class="form-group">
-                                <label>Estoque</label>
-                                <input name="quantidadeDisponivel" type="number" placeholder="0" required>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label>Imagem (URL)</label>
-                            <input name="imagemUrl" type="url" placeholder="http://exemplo.com/foto.jpg">
-                        </div>
-
-                        <!-- Característica Simples -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Característica (Nome)</label>
-                                <input name="caracNome" placeholder="Ex: Cor">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Valor (R$)</label>
+                                    <input
+                                        name="valor"
+                                        type="number"
+                                        step="0.01"
+                                        placeholder="0.00"
+                                        required
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label>Estoque</label>
+                                    <input
+                                        name="quantidadeDisponivel"
+                                        type="number"
+                                        placeholder="0"
+                                        required
+                                    />
+                                </div>
                             </div>
+
+                            <div class="form-group">
+                                <label>Imagem (URL)</label>
+                                <input
+                                    name="imagemUrl"
+                                    type="url"
+                                    placeholder="http://exemplo.com/foto.jpg"
+                                />
+                            </div>
+
+                            <!-- Característica Simples -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Característica (Nome)</label>
+                                    <input
+                                        name="caracNome"
+                                        placeholder="Ex: Cor"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label>Descrição</label>
+                                    <input
+                                        name="caracDesc"
+                                        placeholder="Ex: Preto"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Categoria</label>
+                                <input
+                                    name="categoria"
+                                    placeholder="Ex: Periféricos"
+                                    list="categoriasList"
+                                />
+                                <datalist id="categoriasList">
+                                    <option value="Eletrônicos"></option>
+                                    <option value="Móveis"></option>
+                                    <option value="Acessórios"></option>
+                                </datalist>
+                            </div>
+
                             <div class="form-group">
                                 <label>Descrição</label>
-                                <input name="caracDesc" placeholder="Ex: Preto">
+                                <textarea
+                                    name="descricao"
+                                    rows="3"
+                                    placeholder="Detalhes técnicos..."
+                                ></textarea>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label>Categoria</label>
-                            <input name="categoria" placeholder="Ex: Periféricos" list="categoriasList">
-                            <datalist id="categoriasList">
-                                <option value="Eletrônicos">
-                                <option value="Móveis">
-                                <option value="Acessórios">
-                            </datalist>
-                        </div>
+                            <button
+                                type="submit"
+                                class="btn-submit btn-primary"
+                            >
+                                + Cadastrar Produto
+                            </button>
+                        </form>
+                    </div>
 
-                        <div class="form-group">
-                            <label>Descrição</label>
-                            <textarea name="descricao" rows="3" placeholder="Detalhes técnicos..."></textarea>
-                        </div>
-
-                        <button type="submit" class="btn-submit btn-primary">
-                            + Cadastrar Produto
-                        </button>
-                    </form>
+                    <!-- Form Usuário -->
+                    <div id="formCardUsuario" class="card-form hidden">
+                        <h3>Novo Usuário</h3>
+                        <form id="createUsuarioForm">
+                            <div class="form-group">
+                                <label>Nome Completo</label>
+                                <input
+                                    name="nome"
+                                    placeholder="Ex: João da Silva"
+                                    required
+                                    autocomplete="off"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label>E-mail Corporativo</label>
+                                <input
+                                    name="email"
+                                    type="email"
+                                    placeholder="joao@empresa.com"
+                                    required
+                                    autocomplete="off"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label>Senha de Acesso</label>
+                                <input
+                                    name="senha"
+                                    type="password"
+                                    placeholder="******"
+                                    required
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                class="btn-submit btn-secondary"
+                            >
+                                + Cadastrar Usuário
+                            </button>
+                        </form>
+                    </div>
                 </div>
+            </aside>
+        </div>
 
-                <!-- Form Usuário -->
-                <div id="formCardUsuario" class="card-form hidden">
-                    <h3>Novo Usuário</h3>
-                    <form id="createUsuarioForm">
-                        <div class="form-group">
-                            <label>Nome Completo</label>
-                            <input name="nome" placeholder="Ex: João da Silva" required autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <label>E-mail Corporativo</label>
-                            <input name="email" type="email" placeholder="joao@empresa.com" required autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <label>Senha de Acesso</label>
-                            <input name="senha" type="password" placeholder="******" required>
-                        </div>
-                        <button type="submit" class="btn-submit btn-secondary">
-                            + Cadastrar Usuário
-                        </button>
-                    </form>
-                </div>
-
-            </div>
-        </aside>
-
-    </div>
-
-    <!-- Importação do JavaScript Externo -->
-    <script src="app.js"></script>
-</body>
+        <!-- Importação do JavaScript Externo -->
+        <script src="app.js"></script>
+    </body>
 </html>
